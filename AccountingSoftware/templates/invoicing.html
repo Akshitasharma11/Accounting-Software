@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .button-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .new-button {
+            background-color: #654062;
+            color: white;
+        }
+        .upload-button {
+            background-color: #E5E5E5;
+            color: black;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .invoice-table {
+            margin-top: 60px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .invoice-table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button class="button new-button" onclick="openModal()">New</button>
+        <button class="button upload-button" onclick="openUploadModal()">Upload</button>
+    </div>
+
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Customer</th>
+                <th>Invoice Date</th>
+                <th>Due Date</th>
+                <th>Tax Excluded</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="invoiceBody">
+        </tbody>
+    </table>
+
+    <div class="modal" id="invoiceModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Customer Invoice</h2>
+            <label>Invoice Number:</label>
+            <input type="text" id="invoiceNumber" value="INV/25-26/0001"/><br><br>
+            <label>Customer:</label>
+            <input type="text" id="customerName" placeholder="Enter customer name"/><br><br>
+            <label>Invoice Date:</label>
+            <input type="date" id="invoiceDate" value="2025-04-02"/><br><br>
+            <label>Due Date:</label>
+            <input type="date" id="dueDate" value="2025-04-04"/><br><br>
+            <label>Tax Excluded:</label>
+            <input type="text" id="taxExcluded" value="₹ 0.00"/><br><br>
+            <label>Status:</label>
+            <select id="status">
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+            </select><br><br>
+            <button onclick="saveInvoice()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("invoiceModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("invoiceModal").style.display = "none";
+        }
+
+        function saveInvoice() {
+            let invoiceNumber = document.getElementById("invoiceNumber").value;
+            let customerName = document.getElementById("customerName").value;
+            let invoiceDate = document.getElementById("invoiceDate").value;
+            let dueDate = document.getElementById("dueDate").value;
+            let taxExcluded = document.getElementById("taxExcluded").value;
+            let status = document.getElementById("status").value;
+            
+            let tableBody = document.getElementById("invoiceBody");
+            let newRow = tableBody.insertRow();
+            newRow.innerHTML = `<td>${invoiceNumber}</td>
+                                <td>${customerName}</td>
+                                <td>${invoiceDate}</td>
+                                <td>${dueDate}</td>
+                                <td>${taxExcluded}</td>
+                                <td>${status}</td>`;
+            
+            closeModal();
+        }
+    </script>
+</body>
+</html>
